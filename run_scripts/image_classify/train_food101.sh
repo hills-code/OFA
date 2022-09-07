@@ -96,6 +96,7 @@ for max_epoch in {50,}; do
             --clip-norm=1.0 \
             --lr-scheduler=polynomial_decay \
             --lr=${lr} \
+            --tensorboard-logdir=${log_dir} \
             --log-format=simple \
             --log-interval=10 \
             --fixed-validation-seed=7 \

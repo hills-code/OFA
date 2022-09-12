@@ -1,0 +1,6 @@
+{
+  "dataset": {
+    "text": ["mnli", "sst2"],
+    "image": ["food101"]
+  }
+}

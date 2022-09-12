@@ -18,11 +18,11 @@ export MASTER_PORT=8514
 # The rank of this worker, should be in {0, ..., WORKER_CNT-1}, for single-worker training, please set to 0
 export RANK=0 
 
-data_dir=../../dataset/food101
+data_dir=../../dataset/unified_data/food101
 data=${data_dir}/food101_train.tsv,${data_dir}/food101_val.tsv
 # Note: If you have shuffled the data in advance, please uncomment the line below.
 # data=${data_dir}/imagenet_1k_train_1.tsv,${data_dir}/imagenet_1k_train_2.tsv,${data_dir}/imagenet_1k_train_3.tsv,${data_dir}/imagenet_1k_train_4.tsv,${data_dir}/imagenet_1k_train_5.tsv,${data_dir}/imagenet_1k_train_6.tsv,${data_dir}/imagenet_1k_train_7.tsv,${data_dir}/imagenet_1k_train_8.tsv,${data_dir}/imagenet_1k_train_9.tsv,${data_dir}/imagenet_1k_train_10.tsv,${data_dir}/imagenet_1k_val_subset.tsv
-ans2label_file=../../dataset/food101/class2label.pkl
+ans2label_file=../../dataset/unified_data/food101/ans2label.pkl
 restore_file=../../checkpoints/ofa_large.pt
 selected_cols=0,1
 
@@ -46,8 +46,11 @@ dropout=0.1
 attention_dropout=0.0
 max_src_length=128
 max_tgt_length=30
+prompt_type_method=prefix
 num_bins=1000
 patch_image_size=480
+encoder_prompt_length=32
+decoder_prompt_length=32
 warmup_ratio=0.06
 
 for max_epoch in {50,}; do
@@ -109,6 +112,12 @@ for max_epoch in {50,}; do
             --freeze-encoder-embedding \
             --freeze-decoder-embedding \
             --ans2label-file=${ans2label_file} \
+            --encoder-prompt \
+            --decoder-prompt \
+            --encoder-prompt-type=${prompt_type_method} \
+            --decoder-prompt-type=${prompt_type_method} \
+            --encoder-prompt-length=${encoder_prompt_length} \
+            --decoder-prompt-length=${decoder_prompt_length} \
             --valid-batch-size=20 \
             --add-type-embedding \
             --scale-attn \

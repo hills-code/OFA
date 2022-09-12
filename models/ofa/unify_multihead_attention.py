@@ -315,7 +315,7 @@ class MultiheadAttention(nn.Module):
 
         if key_padding_mask is not None:
             assert key_padding_mask.size(0) == bsz
-            assert key_padding_mask.size(1) == k.size(1)
+            # assert key_padding_mask.size(1) == k.size(1)
 
         if self.add_zero_attn:
             assert v is not None

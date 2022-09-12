@@ -136,7 +136,10 @@ class OFATask(FairseqTask):
             [j for j in range(i, min(i + max_sentences, len(dataset)))]
             for i in range(0, len(dataset), max_sentences)
         ]
-        total_row_count = dataset.dataset.get_total_row_count()
+        try:
+            total_row_count = dataset.dataset.get_total_row_count()
+        except:
+            total_row_count = dataset.get_total_row_count()
         num_batches = math.ceil(math.ceil(total_row_count / num_shards) / max_sentences)
         if len(batch_sampler) < num_batches:
             batch_sampler.append([])
